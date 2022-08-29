@@ -24,6 +24,7 @@ def SampleGOE(meanLevelSpacing:float, N_res:int, E0:float=0.0, seed:int=None):
         seed = np.random.randint(10000)
     rng = np.random.default_rng(seed)
 
+    # Get random matrix and eigenvalues:
     sqrt2 = np.sqrt(2)
     H = rng.normal(size=(N_Tot,N_Tot)) / sqrt2
     H += H.T
@@ -38,6 +39,7 @@ def SampleGOE(meanLevelSpacing:float, N_res:int, E0:float=0.0, seed:int=None):
     if len(eigs) < N_res:
         return SampleGOE(meanLevelSpacing, N_res, seed)
 
+    # Make energies uniformly spaced using semicircle law transformation:
     E = E0 + N_Tot * meanLevelSpacing * (WigSemicircleCDF(eigs[:N_res]) - WigSemicircleCDF(-1.0+margin))
     return E
 
